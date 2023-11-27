@@ -15,7 +15,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class FloatRatesXmlParser {
-    public static String getCurrencyRatesBaseUsd(InputStream stream) throws IOException {
+    public static String getCurrencyRatesBaseUsd(InputStream stream, UserChoiceCurency) throws IOException {
         String result = new String();
         try {
             DocumentBuilderFactory xmlDocFactory = DocumentBuilderFactory.newInstance();
@@ -26,8 +26,10 @@ public class FloatRatesXmlParser {
             for (int i = 0; i < rateNodes.getLength(); ++i) {
                 Element rateNode = (Element) rateNodes.item(i);
                 String currencyName = rateNode.getElementsByTagName("targetCurrency").item(0).getFirstChild().getNodeValue();
+                if (currencyName.equals("TODO")) {
                 String rate = rateNode.getElementsByTagName("exchangeRate").item(0).getFirstChild().getNodeValue();
                 result += (String.format("Currency name: %s, rate %s \n", currencyName, rate));
+                break;
             }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
